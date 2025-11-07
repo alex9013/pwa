@@ -1,35 +1,44 @@
-import "dotenv/config";
-import express from "express";
-import mongoose from "mongoose";
-import morgan from "morgan";
-import cors from "cors";
+import 'dotenv/config';
+import express from 'express';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
+import cors from 'cors';
 
-// importar rutas
-import authRoutes from "./routes/auth.routes.js";
-import taskRoutes from "./routes/task.routes.js";
+import taskRoutes from './routes/task.routes.js';
+import authRoutes from './routes/auth.routes.js';
 
+// Crear la aplicación express
 const app = express();
 
-// middlewares
-app.use(cors());
+// ✅ Configuración CORS
+const FRONTEND_URLS = [
+  'http://localhost:5173', // desarrollo local
+  'https://todo-pwa-front-ftp.vercel.app' // producción en Vercel
+];
+
+app.use(cors({
+  origin: FRONTEND_URLS,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(morgan('dev'));
 
-// rutas
-app.get('/', (req, res) => res.json({ ok: true, name: 'TODO-PWA-API' }));
-app.use('/api/auth', authRoutes);
+// Rutas
+app.get('/', (req, res) => res.json({ ok: true, name: 'todo-pwa-api' }));
 app.use('/api/tasks', taskRoutes);
+app.use('/api/auth', authRoutes);
 
 const { PORT = 4000, MONGO_URI } = process.env;
 
-// Conectar a MongoDB y levantar servidor
 mongoose.connect(MONGO_URI)
   .then(() => {
-    app.listen(PORT, '0.0.0.0', () =>
-      console.log(`Se pudo conectar perfecto ${PORT}`)
-    );
+    app.listen(PORT, () => console.log(`Conectado exitosamente al puerto: ${PORT}`));
   })
   .catch(err => {
-    console.error("Error al conectar a la base de datos", err);
+    console.error('Error al conectar a la base de datos', err);
     process.exit(1);
   });
+
+export default app;
