@@ -11,7 +11,7 @@ connectToDB().catch(err => console.error("Error Mongo:", err));
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://to-do-vm2w.vercel.app/"
+  "https://to-do-vm2w.vercel.app"
 ];
 
 app.use(cors({
