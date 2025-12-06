@@ -2,8 +2,20 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+<<<<<<< HEAD
 import taskRoutes from "./routes/task.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+=======
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import taskRoutes from path.join(__dirname, "routes/task.routes.js");
+import authRoutes from path.join(__dirname, "routes/auth.routes.js");
+
+>>>>>>> 6e91746437d5e4cbf12ec6867ba1b0a4a3520e63
 import { connectToDB } from "./db/connect.js";
 
 const app = express();
@@ -29,4 +41,8 @@ app.get("/", (_req, res) => res.json({ ok: true, name: "todo-pwa-api" }));
 app.use("/api/tasks", taskRoutes);
 app.use("/api/auth", authRoutes);
 
+<<<<<<< HEAD
 export default app;
+=======
+export default app;
+>>>>>>> 6e91746437d5e4cbf12ec6867ba1b0a4a3520e63
