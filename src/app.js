@@ -2,8 +2,15 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import taskRoutes from "./routes/task.routes.js";
-import authRoutes from "./routes/auth.routes.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import taskRoutes from path.join(__dirname, "routes/task.routes.js");
+import authRoutes from path.join(__dirname, "routes/auth.routes.js");
+
 import { connectToDB } from "./db/connect.js";
 
 const app = express();
